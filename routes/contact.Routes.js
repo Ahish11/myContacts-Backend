@@ -27,9 +27,8 @@ router.route("/:id").delete((request, response) => {
 //Importing all api's from controller
 const {getContacts,createContact,getContact,updateContact,deleteContact} =require('../controllers/contactController')
 //Get request
-router.route("/").get(getContacts)
+router.route("/").get(getContacts).post(createContact);//!code refactor
 router.route("/:id").get(getContact)
-router.route("/").post(createContact)
 router.route("/:id").put(updateContact)
 router.route("/:id").delete(deleteContact)
 
