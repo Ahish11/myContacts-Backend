@@ -1,7 +1,7 @@
 // !this file will convert the response format from html to json in thunderClient
 
 const { constants } = "../constants.js";
- //*doubt in path
+
 
 // param order should be same
 const errorhandler = (err, req, res, next) => {
@@ -44,3 +44,4 @@ const errorhandler = (err, req, res, next) => {
   res.json({ message: err.message, stackTrace: err.stack });
 };
 module.exports =errorhandler;
+
