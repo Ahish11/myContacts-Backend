@@ -13,6 +13,7 @@ const port = process.env.PORT || 5000;
 //!app.use - isMiddleware and adding rotes config
 app.use(express.json()); //to pass (body) client to server
 app.use("/api/contacts", require("./routes/contact.Routes"));
+app.use("/api/users", require("./routes/user.Routes"));
 app.use(errorhandler);
 
 app.listen(port, () => {
