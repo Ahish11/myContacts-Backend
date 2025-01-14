@@ -3,9 +3,15 @@ const asyncHandler = require("express-async-handler");
 const Contact = require("../models/contactModel");
 //*we are using moongoose it returns a promise so we need a async.
 
+//req ->from frontend (header,body)
+//res ->from backend
+
 // all api are public
+//@ http://localhost:5001/api/contacts
+//@ get
 const getContacts = asyncHandler(async (request, response) => {
-  const contact = await Contact.find();
+  // const contact = await Contact.find();//
+  const contact = await Contact.find({ user_id: request.user.id }); //get loggedIn contact
   console.log(contact, "contact Collection");
   response.status(200).json(contact);
 });
@@ -48,7 +54,8 @@ const updateContact = asyncHandler(async (request, response) => {
 
   const updateContact = await Contact.findByIdAndUpdate(
     request.params.id,
-    request.body
+    request.body,
+    { new: true }
   );
 
   response.status(200).json(updateContact);

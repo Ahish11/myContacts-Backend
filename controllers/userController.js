@@ -8,15 +8,15 @@ const User = require("../models/userModel");
 const registerUser = asyncHandler(async (request, response) => {
   console.log("req body-->", request.body);
   const { username, email, password } = request.body;
-  if (!username || !email || !password) {  
+  if (!username || !email || !password) {
     response.status(400);
     throw new Error("All Fields are Mandatory");
   }
   const userAvailable = await User.findOne({ email });
   if (userAvailable) {
-    response.status(400);                     
+    response.status(400);
     throw new Error("User already register");
-  }                   
+  }
   // Hash Password
   const hashedPassword = await bcrypt.hash(password, 10);
   console.log("hashedPassword:", hashedPassword);
@@ -35,7 +35,6 @@ const registerUser = asyncHandler(async (request, response) => {
   response.json({ message: "Register User" });
 });
 
-
 //api/users/login
 //http://localhost:5001/api/users/login
 //after login generates a ACCESS TOKEN ,only authenticated user access private routes
@@ -45,7 +44,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // Validate input
   if (!email || !password) {
     res.status(400);
-    throw new Error("All the fields are mandatory");
+    throw new Error("email || password fields are mandatory");
   }
 
   // Find user by email
@@ -63,18 +62,18 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1min" }
+      { expiresIn: "10min" }
     );
     // Respond with the token
     res.status(200).json({ accessToken });
   } else {
     res.status(401); // Unauthorized
-    throw new Error("Invalid email or password");
+    throw new Error("Unauthorized email or password");
   }
 });
 // @access private
 const currentUser = asyncHandler(async (request, response) => {
-  response.status(200).json({ message: "current user info" });
+  response.json(request.user);
 });
 
 module.exports = { registerUser, loginUser, currentUser };
